@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Hospital } from '../../models/hospital.model';
-import { HospitalService } from '../../services/service.index';
-// import swal from 'sweetalert';
-import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
-declare var swal: any;
+import { Component, OnInit } from "@angular/core";
+import { Hospital } from "../../models/hospital.model";
+import { HospitalService } from "../../services/service.index";
+import Swal from "sweetalert2";
+import { ModalUploadService } from "../../components/modal-upload/modal-upload.service";
 
 @Component({
-  selector: 'app-hospitales',
-  templateUrl: './hospitales.component.html',
-  styles: []
+  selector: "app-hospitales",
+  templateUrl: "./hospitales.component.html",
+  styles: [],
 })
 export class HospitalesComponent implements OnInit {
+  hospitales: Hospital[] = [];
 
-  hospitales: Hospital [] = [];
-
-  constructor(public _hospitalService: HospitalService,
-              public _modalUploadService: ModalUploadService) { }
+  constructor(
+    public _hospitalService: HospitalService,
+    public _modalUploadService: ModalUploadService
+  ) {}
 
   ngOnInit() {
     this.cargarHospitales();
@@ -26,19 +26,18 @@ export class HospitalesComponent implements OnInit {
   }
 
   buscarHospital(termino: string) {
-
     if (termino.length <= 0) {
       this.cargarHospitales();
       return;
     }
 
-    this._hospitalService.buscarHospital(termino).subscribe(hospitales => {
+    this._hospitalService.buscarHospital(termino).subscribe((hospitales) => {
       this.hospitales = hospitales;
     });
   }
 
   cargarHospitales() {
-    this._hospitalService.cargarHospitales().subscribe(hospitales => {
+    this._hospitalService.cargarHospitales().subscribe((hospitales) => {
       this.hospitales = hospitales;
     });
   }
@@ -54,14 +53,16 @@ export class HospitalesComponent implements OnInit {
   }
 
   crearHospital() {
-    swal({
-      title: 'Crear hospital',
-      text: 'Ingrese el nombre del hospital',
-      content: 'input',
-      icon: 'info',
-      buttons: true,
-      dangerMode: true
-    }).then((valor: string) => {
+    Swal.fire({
+      title: "Crear hospital",
+      inputPlaceholder: "Ingrese el nombre del hospital",
+      input: "text",
+      icon: "info",
+      // buttons: true,
+      // dangerMode: true,
+    }).then((result) => {
+      const valor = result.value;
+
       if (!valor || valor.length === 0) {
         return;
       }
@@ -73,7 +74,6 @@ export class HospitalesComponent implements OnInit {
   }
 
   actualizarImagen(hospital: Hospital) {
-    this._modalUploadService.mostrarModal('hospitales', hospital._id);
+    this._modalUploadService.mostrarModal("hospitales", hospital._id);
   }
-
 }

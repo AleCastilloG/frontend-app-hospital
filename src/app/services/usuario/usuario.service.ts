@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { map, catchError } from "rxjs/operators";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 // Model
 import { Usuario } from "../../models/usuario.model";
@@ -38,11 +38,12 @@ export class UsuarioService {
       }),
       catchError((err) => {
         this.router.navigate(["/login"]);
-        swal(
-          "No se pudo renovar token",
-          "No fue posible renovar token",
-          "error"
-        );
+
+        Swal.fire({
+          icon: "error",
+          title: "No se pudo renovar token",
+          text: "No fue posible renovar token"
+        });
         return throwError(err);
       })
     );
@@ -128,7 +129,13 @@ export class UsuarioService {
       }),
       catchError((err) => {
         // console.log(err.error.mensaje);
-        swal("Error en el login", err.error.mensaje, "error");
+
+          Swal.fire({
+          icon: "error",
+          title: "Error en el login",
+          text:  `${err.error.mensaje}`,
+        });
+
         return throwError(err);
       })
     );
@@ -142,11 +149,11 @@ export class UsuarioService {
 
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {
-        swal("Usuario creado", usuario.email, "success");
+        Swal.fire("Usuario creado", usuario.email, "success");
         return resp.usuario;
       }),
       catchError((err) => {
-        swal(err.error.mensaje, err.error.errors.message, "error");
+        Swal.fire(err.error.mensaje, err.error.errors.message, "error");
         return throwError(err);
       })
     );
@@ -166,12 +173,12 @@ export class UsuarioService {
           this.guardarStorage(usuarioDB._id, this.token, usuarioDB, this.menu);
         }
 
-        swal("Usuario actualizado", usuario.nombre, "success");
+        Swal.fire("Usuario actualizado", usuario.nombre, "success");
 
         return true;
       }),
       catchError((err) => {
-        swal(err.error.mensaje, err.error.errors.message, "error");
+        Swal.fire(err.error.mensaje, err.error.errors.message, "error");
         return throwError(err);
       })
     );
@@ -182,7 +189,7 @@ export class UsuarioService {
       .subirArchivo(archivo, "usuarios", id)
       .then((resp: any) => {
         this.usuario.img = resp.usuario.img;
-        swal("Imagen Actualizada", this.usuario.nombre, "success");
+        Swal.fire("Imagen Actualizada", this.usuario.nombre, "success");
 
         this.guardarStorage(id, this.token, this.usuario, this.menu);
       })
@@ -208,7 +215,7 @@ export class UsuarioService {
 
     return this.http.delete(url).pipe(
       map((resp) => {
-        swal(
+        Swal.fire(
           "Usuario borrado",
           "El usuario a sido eliminado correctamente",
           "success"
