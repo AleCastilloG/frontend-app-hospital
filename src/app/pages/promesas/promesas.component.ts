@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-promesas',
-  templateUrl: './promesas.component.html',
-  styles: []
+  selector: "app-promesas",
+  templateUrl: "./promesas.component.html",
+  styles: [],
 })
 export class PromesasComponent implements OnInit {
-
   constructor() {
     // Una forma de hacerlo una promesa
     // promesa.then(
@@ -14,23 +13,18 @@ export class PromesasComponent implements OnInit {
     //   () => console.log('Error')
     // );
 
-    this.contarTres().then(
-      mensaje => console.log('Termino!', mensaje)
-    )
-    .catch(error => console.error('Error en la promesa', error));
+    this.contarTres()
+      .then((mensaje) => console.log("Termino!", mensaje))
+      .catch((error) => console.error("Error en la promesa", error));
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   contarTres(): Promise<boolean> {
-
     return new Promise((resolve, reject) => {
-
       let contador = 0;
 
       let intervalo = setInterval(() => {
-
         contador += 1;
         console.log(contador);
 
@@ -39,9 +33,7 @@ export class PromesasComponent implements OnInit {
           // reject('simplemente un error');
           clearInterval(intervalo);
         }
-
       }, 1000);
     });
   }
-
 }
