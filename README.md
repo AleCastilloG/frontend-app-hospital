@@ -1,4 +1,21 @@
-# Adminpro
+# Frontend del Dashboard Hospitales - Médicos
+
+Frontend del proyecto de la aplicación de médicos y hospitales desarrollado con `Angular`.
+
+<br>
+
+#### Instalar dependencias
+
+```
+npm install
+```
+
+### Demo Frotend App
+
+[application-angular-demo](https://ale-frontend-hospital.herokuapp.com)
+
+<br>
+<hr>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
 
